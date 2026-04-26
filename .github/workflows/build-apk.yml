@@ -38,21 +38,18 @@ jobs:
       - name: Install Capacitor
         run: pnpm add @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Create capacitor config
+      - name: Create capacitor config JSON
         run: |
-          cat > capacitor.config.ts << 'EOF'
-          import { CapacitorConfig } from '@capacitor/cli';
-          const config: CapacitorConfig = {
-            appId: 'com.smarttransit.jordan',
-            appName: 'SmartTransit Jordan',
-            webDir: 'dist',
-            server: { androidScheme: 'https' }
-          };
-          export default config;
+          cat > capacitor.config.json << 'EOF'
+          {
+            "appId": "com.smarttransit.jordan",
+            "appName": "SmartTransit Jordan",
+            "webDir": "dist",
+            "server": {
+              "androidScheme": "https"
+            }
+          }
           EOF
-
-      - name: Init Capacitor
-        run: npx cap init "SmartTransit Jordan" "com.smarttransit.jordan" --web-dir dist
 
       - name: Add Android platform
         run: npx cap add android
