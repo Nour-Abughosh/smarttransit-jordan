@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -36,12 +36,23 @@ jobs:
         run: pnpm build
 
       - name: Install Capacitor
+        run: pnpm add @capacitor/core @capacitor/cli @capacitor/android
+
+      - name: Create capacitor config
         run: |
-          pnpm add @capacitor/core @capacitor/cli @capacitor/android
+          cat > capacitor.config.ts << 'EOF'
+          import { CapacitorConfig } from '@capacitor/cli';
+          const config: CapacitorConfig = {
+            appId: 'com.smarttransit.jordan',
+            appName: 'SmartTransit Jordan',
+            webDir: 'dist',
+            server: { androidScheme: 'https' }
+          };
+          export default config;
+          EOF
 
       - name: Init Capacitor
-        run: |
-          npx cap init "SmartTransit Jordan" "com.smarttransit.jordan" --web-dir dist
+        run: npx cap init "SmartTransit Jordan" "com.smarttransit.jordan" --web-dir dist
 
       - name: Add Android platform
         run: npx cap add android
@@ -58,7 +69,7 @@ jobs:
       - name: Build Debug APK
         run: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
