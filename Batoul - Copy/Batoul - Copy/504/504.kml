@@ -1,0 +1,2122 @@
+<?xml version='1.0'?>
+<kml xmlns='http://www.opengis.net/kml/2.2' xmlns:gx='http://www.google.com/kml/ext/2.2'>
+    <Document>
+        <Style id='styleStartIcon'>
+            <IconStyle>
+                <scale>0.7</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/start_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff00FF00</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleEndIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/end_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleStopIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/stop.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500040'>
+            <LineStyle>
+                <color>ff2EAEC2</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleStartIcon'>
+            <IconStyle>
+                <scale>0.7</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/start_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff00FF00</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleEndIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/end_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleStopIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/stop.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Style id='styleLine_500041'>
+            <LineStyle>
+                <color>ffB1A9B5</color>
+                <width>5</width>
+            </LineStyle>
+        </Style>
+        <Placemark>
+            <description>&lt;strong>No :500040 &lt;/strong></description>
+            <styleUrl>#styleStartIcon</styleUrl>
+            <Point>
+                <coordinates>35.832892,31.954383,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>No :500040 &lt;/strong></description>
+            <styleUrl>#styleEndIcon</styleUrl>
+            <Point>
+                <coordinates>35.843573,32.020292999999995,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <name>500040</name>
+            <styleUrl>#styleLine_500040</styleUrl>
+            <LineString>
+                <extrude>1</extrude>
+                <tesellate>1</tesellate>
+                <coordinates>35.832892,31.954383,0 35.833742,31.95425,0 35.834346,31.954203,0 35.836065,31.95404,0 35.837004,31.954037,0 35.837423,31.954055,0 35.837686999999995,31.954082999999997,0 35.840112,31.954321999999998,0 35.841457,31.954739999999997,0 35.843132,31.955285999999997,0 35.845067,31.955917,0 35.845396,31.955999,0 35.846467,31.956339,0 35.846847,31.95638,0 35.847207,31.956294,0 35.847269,31.956294,0 35.847468,31.956397,0 35.847547999999996,31.956481,0 35.847594,31.956629,0 35.847567,31.956768,0 35.847485999999996,31.956857,0 35.847269,31.956943,0 35.847100999999995,31.957103,0 35.846914,31.957402,0 35.846509999999995,31.957993,0 35.845735999999995,31.959529,0 35.845076999999996,31.961364,0 35.844958999999996,31.961644,0 35.844653,31.962608,0 35.844545,31.962856,0 35.843903999999995,31.964136,0 35.84288,31.966243,0 35.842673999999995,31.966624,0 35.842428999999996,31.967157999999998,0 35.841097999999995,31.969749,0 35.840835,31.9703,0 35.840674,31.970591,0 35.840533,31.970955,0 35.840241,31.971626999999998,0 35.840011,31.972094,0 35.839628999999995,31.972977999999998,0 35.839666,31.973162,0 35.839746999999996,31.973429,0 35.839697,31.973734999999998,0 35.839397,31.97402,0 35.838975,31.974272,0 35.838778999999995,31.974548,0 35.838588,31.974949,0 35.838296,31.975654,0 35.837776999999996,31.976598,0 35.837145,31.977936,0 35.837005999999995,31.978192,0 35.836306,31.97928,0 35.835602,31.980151,0 35.835408,31.980369,0 35.835321,31.980501999999998,0 35.83471,31.981225,0 35.834554,31.981343,0 35.834317,31.981679999999997,0 35.834168,31.98184,0 35.83372,31.982557,0 35.83368,31.982668,0 35.833580999999995,31.982771,0 35.833466,31.982819,0 35.833247,31.982810999999998,0 35.833172999999995,31.982787,0 35.833033,31.982682999999998,0 35.832729,31.982325999999997,0 35.832549,31.982191,0 35.831716,31.98179,0 35.830549999999995,31.981285999999997,0 35.829654,31.980985999999998,0 35.829296,31.980932,0 35.828958,31.980974,0 35.828736,31.980947999999998,0 35.828680999999996,31.980907,0 35.828661,31.980856,0 35.828675,31.980715,0 35.828714,31.980632999999997,0 35.828817,31.980569,0 35.829023,31.980556,0 35.829758999999996,31.980897,0 35.831156,31.981412,0 35.832647,31.982107,0 35.833131,31.982159,0 35.833332999999996,31.982149999999997,0 35.833473999999995,31.982172,0 35.83358,31.982231,0 35.8337,31.982374999999998,0 35.833726999999996,31.982587,0 35.833705,31.982656,0 35.833580999999995,31.982802,0 35.833349,31.982941999999998,0 35.832715,31.983691999999998,0 35.832195,31.984322,0 35.831736,31.985082,0 35.831368,31.985871999999997,0 35.831007,31.986849999999997,0 35.830681999999996,31.987980999999998,0 35.830521999999995,31.988750999999997,0 35.830451,31.989237,0 35.830380999999996,31.990325,0 35.830411,31.992265999999997,0 35.830404,31.994500000000002,0 35.830414,31.995158,0 35.830397,31.996761,0 35.830414999999995,32.000536,0 35.830467,32.001478999999996,0 35.830577999999996,32.002157,0 35.830866,32.003,0 35.831206,32.003631,0 35.831523,32.004056999999996,0 35.831984999999996,32.004559,0 35.832477,32.004988,0 35.833227,32.005514,0 35.834593,32.006355,0 35.837246,32.008054,0 35.837944,32.008553,0 35.838293,32.008843,0 35.838636,32.009157,0 35.839594,32.010251,0 35.839883,32.010540999999996,0 35.840154,32.010858,0 35.840427999999996,32.01114,0 35.840742999999996,32.011513,0 35.841024,32.011809,0 35.841968,32.012912,0 35.842363999999996,32.013431,0 35.842665,32.013937999999996,0 35.842842999999995,32.014359999999996,0 35.843052,32.015017,0 35.843126999999996,32.015322,0 35.843496,32.017232,0 35.843559,32.017413999999995,0 35.843917999999995,32.019892999999996,0 35.844034,32.020624,0 35.844055,32.021291999999995,0 35.844031,32.021423,0 35.843986,32.021465,0 35.843886,32.02146,0 35.843845,32.021423,0 35.84374,32.020444999999995,0 35.84368,32.020326,0 35.843573,32.020292999999995,0 </coordinates>
+            </LineString>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11910 Al Bayader 5 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8328417,31.9544115,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11912 Al Bayader 7 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8351531,31.9540753,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11913 Al Bayader 9 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8400192,31.9542827,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11914 Al Bayader 11 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8456497,31.9560783,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11915 Abdullah 2nd St. 1 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8470354,31.9572848,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11917 Abdullah 2nd St. 5 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8425155,31.9670922,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19119 Abdullah 2nd St. 9 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8384302,31.9755016,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19120 Abdullah 2nd St. 11 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8357635,31.979971,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19121 Saeed Kheir 1 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8291273,31.9805269,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19122 Abdullah 2nd St. 13 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.831151,31.986583999999997,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19123 Abdullah 2nd St. 15 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8304558,31.9897504,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19124 Abdullah 2nd St. 17 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.830597999999995,31.9943402,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19125 Abdullah 2nd St. 19 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8305319,31.9959258,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19126 Abdullah 2nd St. 21 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8304914,32.0003345,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19127 Abdullah 2nd St. 23 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8342253,32.0060618,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19128 Abdullah 2nd St. 25 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8371068,32.0079485,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19129 Abdullah 2nd St. 27 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8416104,32.012388,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19130 Abdullah 2nd St. 29 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8432352,32.0154419,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11911 Sweileh Complex &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8436002,32.0202483,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>No :500041 &lt;/strong></description>
+            <styleUrl>#styleStartIcon</styleUrl>
+            <Point>
+                <coordinates>35.843541,32.020253,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>No :500041 &lt;/strong></description>
+            <styleUrl>#styleEndIcon</styleUrl>
+            <Point>
+                <coordinates>35.832876999999996,31.954594,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <name>500041</name>
+            <styleUrl>#styleLine_500041</styleUrl>
+            <LineString>
+                <extrude>1</extrude>
+                <tesellate>1</tesellate>
+                <coordinates>35.843541,32.020253,0 35.843616,32.020286999999996,0 35.843706,32.020274,0 35.843717,32.020244,0 35.843576,32.019301999999996,0 35.843362,32.017807,0 35.843309999999995,32.017514999999996,0 35.843171,32.016090999999996,0 35.843117,32.015789999999996,0 35.842984,32.015225,0 35.842791999999996,32.0146,0 35.842382,32.013725,0 35.841685999999996,32.012764,0 35.840878,32.011826,0 35.839059999999996,32.009862999999996,0 35.838435,32.009198,0 35.837933,32.008761,0 35.837309999999995,32.008278,0 35.8356,32.007197999999995,0 35.835265,32.006963999999996,0 35.834284,32.006330999999996,0 35.833951,32.006139,0 35.832796,32.005376999999996,0 35.832086,32.004844,0 35.831648,32.004399,0 35.831089999999996,32.0037,0 35.830697,32.002984,0 35.830563,32.002696,0 35.830494,32.002482,0 35.830326,32.001792,0 35.830293,32.001073,0 35.830296,32.000735999999996,0 35.830244,31.998524999999997,0 35.830268,31.997453999999998,0 35.830258,31.997107999999997,0 35.830275,31.996834999999997,0 35.830266,31.995993,0 35.830293,31.994380999999997,0 35.830287999999996,31.993285,0 35.830262999999995,31.992575,0 35.830261,31.991857,0 35.830214,31.990565,0 35.830239,31.989645,0 35.830301999999996,31.988995,0 35.830377999999996,31.988478999999998,0 35.830582,31.987582,0 35.830667,31.987325,0 35.83074,31.987008,0 35.831134999999996,31.98593,0 35.831409,31.985331,0 35.832029,31.984243999999997,0 35.832245,31.983791999999998,0 35.832594,31.983275,0 35.8328,31.98301,0 35.832885,31.98277,0 35.832884,31.982629,0 35.832859,31.982535,0 35.832732,31.982352,0 35.832575999999996,31.982226999999998,0 35.831793,31.981817,0 35.830833999999996,31.981403,0 35.829938999999996,31.981067,0 35.829594,31.980973,0 35.829281,31.980933999999998,0 35.828964,31.98099,0 35.828787999999996,31.980967,0 35.828659,31.980898,0 35.828644,31.980835,0 35.828661,31.980719999999998,0 35.828723,31.980600000000003,0 35.828796,31.980549999999997,0 35.829015999999996,31.980528999999997,0 35.829108999999995,31.980552999999997,0 35.829223999999996,31.980639999999998,0 35.82967,31.980849,0 35.831039,31.981358,0 35.832542,31.982042999999997,0 35.832872,31.982134,0 35.833214,31.982115,0 35.833405,31.982080999999997,0 35.83349,31.982042999999997,0 35.833718999999995,31.981828999999998,0 35.834823,31.980515999999998,0 35.834962,31.980400999999997,0 35.835221,31.980037999999997,0 35.835313,31.979947,0 35.835412999999996,31.979774,0 35.835577,31.979575999999998,0 35.835699,31.979454999999998,0 35.835839,31.979253999999997,0 35.836042,31.979028999999997,0 35.836580999999995,31.978195999999997,0 35.836697,31.978043,0 35.836864,31.977743,0 35.837785,31.975703999999997,0 35.838438,31.974356,0 35.838491,31.974214999999997,0 35.83846,31.973969999999998,0 35.838276,31.973713,0 35.8382,31.973478,0 35.838215999999996,31.973259,0 35.838398,31.973012999999998,0 35.838699,31.972876,0 35.839020999999995,31.972825,0 35.839245,31.972758,0 35.840071,31.971107999999997,0 35.840278,31.970817999999998,0 35.84045,31.970608,0 35.840903,31.969751,0 35.841087,31.96935,0 35.841249999999995,31.969082,0 35.841735,31.968052999999998,0 35.842051,31.967447999999997,0 35.842186999999996,31.967122999999997,0 35.842625,31.966299,0 35.843513,31.964478,0 35.843646,31.964236999999997,0 35.843821999999996,31.963811999999997,0 35.844398999999996,31.962723999999998,0 35.844529,31.962397,0 35.844643999999995,31.961879,0 35.844834,31.961447,0 35.845306,31.960165999999997,0 35.845769,31.958862,0 35.846285,31.957797999999997,0 35.846433,31.957583,0 35.846629,31.957248999999997,0 35.846675,31.957124,0 35.846691,31.956971,0 35.846613,31.956677,0 35.846551,31.956574,0 35.846478,31.956505999999997,0 35.846343999999995,31.956426999999998,0 35.845797,31.956239999999998,0 35.844575999999996,31.955879,0 35.843375,31.955471,0 35.840232,31.954485,0 35.839484999999996,31.954341999999997,0 35.837631,31.954168,0 35.83651,31.954123,0 35.836061,31.954127,0 35.834782,31.954245,0 35.834506999999995,31.954285,0 35.833875,31.95434,0 35.833493,31.954410999999997,0 35.832876999999996,31.954594,0 </coordinates>
+            </LineString>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>11911 Sweileh Complex &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8436002,32.0202483,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19131 Abdullah 2nd St. 24 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8432474,32.0175003,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19132 Abdullah 2nd St. 22 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8415944,32.0128092,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19133 Abdullah 2nd St. 20 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8388349,32.0097468,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19134 Abdullah 2nd St. 18 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8350869,32.0069759,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19135 Abdullah 2nd St. 16 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8302101,32.0004523,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19136 Abdullah 2nd St. 14 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8300943,31.9936081,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19137 Abdullah 2nd St. 12 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8301429,31.989777,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19138 Abdullah 2nd St. 10 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8308335,31.9865537,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19121 Saeed Kheir 1 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8291273,31.9805269,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19139 Abdullah 2nd St. 8 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8367638,31.9778373,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19140 Abdullah 2nd St. 6 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.838077999999996,31.9748794,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19141 Abdullah 2nd St. 4 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.842335999999996,31.9667025,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19142 Abdullah 2nd St. 2 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8451522,31.9602915,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19146 Al Bayader 12 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8465248,31.956611,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19145 Al Bayader 10 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8437046,31.9556991,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19144 Al Bayader 8 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.836529,31.9542181,0 </coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <description>&lt;strong>19143 Al Bayader 6 &lt;/strong></description>
+            <styleUrl>#styleStopIcon</styleUrl>
+            <Point>
+                <coordinates>35.8328377,31.9545891,0 </coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>

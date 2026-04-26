@@ -1,0 +1,83 @@
+<?xml version='1.0'?>
+<kml xmlns='http://www.opengis.net/kml/2.2' xmlns:gx='http://www.google.com/kml/ext/2.2'>
+    <Document>
+        <Style id='styleStartIcon'>
+            <IconStyle>
+                <scale>0.7</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/start_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff00FF00</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleEndIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/end_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleStopIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/stop.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleStartIcon'>
+            <IconStyle>
+                <scale>0.7</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/start_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff00FF00</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleEndIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/end_icon.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Style id='styleStopIcon'>
+            <IconStyle>
+                <scale>0.6</scale>
+                <Icon>
+                    <href>https://portal.kentkart.com.tr/images/stop.png</href>
+                </Icon>
+            </IconStyle>
+            <LabelStyle>
+                <color>0.8</color>
+                <scale>ff0000ff</scale>
+            </LabelStyle>
+        </Style>
+        <Placemark>
+            <styleUrl>#styleLine</styleUrl>
+        </Placemark>
+        <Placemark>
+            <styleUrl>#styleLine</styleUrl>
+        </Placemark>
+    </Document>
+</kml>
