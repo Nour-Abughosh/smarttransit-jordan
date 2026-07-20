@@ -1,8 +1,10 @@
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import { Navbar } from '../components/Navbar';
 import { MobileBottomNav } from '../components/MobileBottomNav';
-
 export function Root() {
+  const location = useLocation();
+  const isOperator = location.pathname.startsWith('/operator');
+  if (isOperator) return <Outlet />;
   return (
     <div className="min-h-screen">
       <Navbar />

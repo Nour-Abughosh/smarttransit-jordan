@@ -1,1 +1,30 @@
 .vercel
+*.pkl
+*.cbm
+*.csv
+results_full/
+results/
+results_traveltime/
+Final/
+ai/
+ai1/
+data/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+catboost_info/
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# research/data dumps, not app source
+Batoul - Copy/
+Capstone2 Data/
+
+# generated reports (duplicated under public/reports, dist/reports)
+/daily_summary_report.pdf
+/route_efficiency_report.xlsx
+/data_stats.json

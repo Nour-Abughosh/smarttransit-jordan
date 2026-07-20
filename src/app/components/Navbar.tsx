@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../../lib/auth';
-import { useLang, LangToggle } from '../../lib/i18n';
+import { useLang } from '../../lib/i18n';
 import { Menu, X, LogOut } from 'lucide-react';
 
 export function Navbar() {
   const { user, logout }   = useAuth();
-  const { t, isRTL }       = useLang();
+  const { t } = useLang();
   const location            = useNavigate ? useLocation() : { pathname: '/' };
   const navigate            = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,7 +46,7 @@ export function Navbar() {
         borderBottom:`1px solid ${scrolled?'#DDE6EE':'#EEF3F8'}`,
         boxShadow: scrolled?'0 2px 16px rgba(15,34,64,0.08)':'none',
         transition:'all 0.25s',
-        direction: isRTL ? 'rtl' : 'ltr',
+        
       }}>
         <div style={{ maxWidth:1200, margin:'0 auto', padding:'0 1rem', height:58, display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
 
@@ -78,7 +78,7 @@ export function Navbar() {
           <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
 
             {/* Language toggle */}
-            <LangToggle style={{ padding:'5px 10px', fontSize:'.78rem' }} />
+            
 
             {/* Desktop user menu */}
             {user && (
@@ -91,7 +91,7 @@ export function Navbar() {
                   <span style={{ fontSize:'.8rem', fontWeight:600, color:'#0F2240' }}>{user.name}</span>
                 </button>
                 {userOpen && (
-                  <div style={{ position:'absolute', top:'calc(100% + 8px)', [isRTL?'left':'right']:0, background:'white', borderRadius:14, border:'1px solid #EEF3F8', boxShadow:'0 8px 32px rgba(15,34,64,.12)', minWidth:170, overflow:'hidden', zIndex:200, animation:'menu-drop .2s ease' }}>
+                  <div style={{ position:'absolute', top:'calc(100% + 8px)', right:0, background:'white', borderRadius:14, border:'1px solid #EEF3F8', boxShadow:'0 8px 32px rgba(15,34,64,.12)', minWidth:170, overflow:'hidden', zIndex:200, animation:'menu-drop .2s ease' }}>
                     <div style={{ padding:'.75rem 1rem', borderBottom:'1px solid #EEF3F8' }}>
                       <div style={{ fontSize:'.82rem', fontWeight:700, color:'#0F2240' }}>{user.name}</div>
                       <div style={{ fontSize:'.7rem', color:'#7A92A8' }}>{user.role}</div>
@@ -100,7 +100,7 @@ export function Navbar() {
                       <Link to="/operator" onClick={()=>setUserOpen(false)} style={{ display:'flex', alignItems:'center', gap:8, padding:'.7rem 1rem', textDecoration:'none', fontSize:'.83rem', color:'#4A6580' }}>⚙ {t.nav.operator}</Link>
                     )}
                     <button onClick={()=>{logout();navigate('/login');setUserOpen(false);}}
-                      style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'.7rem 1rem', background:'none', border:'none', cursor:'pointer', fontSize:'.83rem', color:'#FF5252', fontFamily:'inherit', textAlign:isRTL?'right':'left' }}>
+                      style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'.7rem 1rem', background:'none', border:'none', cursor:'pointer', fontSize:'.83rem', color:'#FF5252', fontFamily:'inherit', textAlign:'left' }}>
                       <LogOut size={14}/> {t.nav.signOut}
                     </button>
                   </div>
@@ -119,7 +119,7 @@ export function Navbar() {
 
         {/* Mobile drawer */}
         {menuOpen && (
-          <div style={{ borderTop:'1px solid #EEF3F8', background:'white', padding:'.75rem 1rem', animation:'menu-drop .2s ease', direction: isRTL?'rtl':'ltr' }}>
+          <div style={{ borderTop:'1px solid #EEF3F8', background:'white', padding:'.75rem 1rem', animation:'menu-drop .2s ease',  }}>
             {navLinks.map(({ path, label }) => (
               <Link key={path} to={path} style={{
                 display:'block', padding:'11px 14px', borderRadius:10,

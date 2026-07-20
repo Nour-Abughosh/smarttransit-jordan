@@ -1,808 +1,444 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { MapPreview } from '../components/MapPreview';
+import { Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import {
-  ArrowLeft, Navigation, AlertTriangle, CheckCircle2,
-  Clock, Zap, Sparkles, RefreshCw, ChevronRight,
-  Radio, TrendingUp, Bus, MapPin, Wind,
+  ArrowLeft, Navigation, AlertTriangle,
+  Clock, Zap, Sparkles, RefreshCw,
+  TrendingUp, Bus, MapPin, Wind,
 } from 'lucide-react';
 import { useLang } from '../../lib/i18n';
 
-/* ─── types ──────────────────────────────────────────── */
-type StopStatus  = 'completed' | 'current' | 'upcoming';
-type AIStatus    = 'clear' | 'moderate' | 'high' | 'gridlock';
-type APIState    = 'idle' | 'loading' | 'ok' | 'error';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const MAP_ID  = 'YOUR_MAP_ID_HERE';
 
-interface Stop {
-  name:   string;
-  time:   string;
-  status: StopStatus;
-  lat:    number;
-  lng:    number;
-}
-
-interface AIResponse {
-  delay:  number;
-  status: string;
-}
-
-/* ─── static route data (keyed by routeId) ──────────── */
-const ROUTE_DATA: Record<number, { name: string; stops: Stop[] }> = {
-  1: {
-    name: 'Route 27',
-    stops: [
-      { name: 'Sweileh Circle',   time: '2:15 PM', status: 'completed', lat: 31.9700, lng: 35.8800 },
-      { name: 'Sports City',      time: '2:23 PM', status: 'current',   lat: 31.9560, lng: 35.8950 },
-      { name: 'Gardens Junction', time: '2:32 PM', status: 'upcoming',  lat: 31.9420, lng: 35.9080 },
-      { name: 'UJ Main Gate',     time: '2:42 PM', status: 'upcoming',  lat: 31.9200, lng: 35.9300 },
-    ],
-  },
-  2: {
-    name: 'Route 35',
-    stops: [
-      { name: 'Sweileh',    time: '2:18 PM', status: 'completed', lat: 31.9700, lng: 35.8800 },
-      { name: 'Shmeisani',  time: '2:28 PM', status: 'current',   lat: 31.9540, lng: 35.9050 },
-      { name: 'Gardens',    time: '2:38 PM', status: 'upcoming',  lat: 31.9380, lng: 35.9150 },
-      { name: 'UJ',         time: '2:53 PM', status: 'upcoming',  lat: 31.9200, lng: 35.9300 },
-    ],
-  },
-  3: {
-    name: 'Route 12 Express',
-    stops: [
-      { name: 'Sweileh',    time: '2:25 PM', status: 'completed', lat: 31.9700, lng: 35.8800 },
-      { name: 'Wadi Saqra', time: '2:33 PM', status: 'current',   lat: 31.9480, lng: 35.9100 },
-      { name: 'UJ',         time: '2:47 PM', status: 'upcoming',  lat: 31.9200, lng: 35.9300 },
-    ],
-  },
-  4: {
-    name: 'Sarfees Direct',
-    stops: [
-      { name: 'Sweileh',   time: '2:12 PM', status: 'completed', lat: 31.9700, lng: 35.8800 },
-      { name: 'UJ Gate 2', time: '2:32 PM', status: 'current',   lat: 31.9200, lng: 35.9300 },
-    ],
-  },
-};
-
-const AI_STATUS_CFG: Record<AIStatus, {
-  label: string; bg: string; border: string; color: string;
-  icon: React.ReactNode; severity: number;
+// Route stop coordinates — keyed by route_id
+const ROUTE_STOPS: Record<string, {
+  name: string;
+  stops: { name: string; lat: number; lng: number }[];
+  color: string;
 }> = {
-  clear:    { label: 'Clear ahead',        bg: '#E0FBF4', border: '#B3F0E0', color: '#00A87C', icon: <Wind size={15}/>,          severity: 0 },
-  moderate: { label: 'Moderate traffic',   bg: '#FFF4E6', border: '#FFD8A0', color: '#C87800', icon: <TrendingUp size={15}/>,    severity: 1 },
-  high:     { label: 'Heavy congestion',   bg: '#FFF0EA', border: '#FFB89A', color: '#E5521C', icon: <AlertTriangle size={15}/>, severity: 2 },
-  gridlock: { label: 'Gridlock detected',  bg: '#FFECEC', border: '#FFB0B0', color: '#CC0000', icon: <AlertTriangle size={15}/>, severity: 3 },
+  AM503: {
+    name: 'AM503 — Sweileh → JU Hospital',
+    color: '#00C896',
+    stops: [
+      { name: 'Sweileh Terminal',           lat: 31.9968, lng: 35.8606 },
+      { name: 'Sweileh Circle',             lat: 31.9950, lng: 35.8650 },
+      { name: 'University Street',          lat: 31.9900, lng: 35.8720 },
+      { name: 'Jordan University Gate 1',   lat: 31.9820, lng: 35.8880 },
+      { name: 'Jordan University Hospital', lat: 31.9790, lng: 35.8940 },
+    ],
+  },
+  AM504: {
+    name: 'AM504 — Wadi Seer → Sweileh',
+    color: '#3B9EFF',
+    stops: [
+      { name: 'Wadi Seer Terminal',   lat: 31.9481, lng: 35.8402 },
+      { name: 'Wadi Seer Circle',     lat: 31.9530, lng: 35.8450 },
+      { name: 'Jubaiha',              lat: 31.9720, lng: 35.8600 },
+      { name: 'University of Jordan', lat: 31.9820, lng: 35.8710 },
+      { name: 'Sweileh Terminal',     lat: 31.9968, lng: 35.8606 },
+    ],
+  },
+  AM505: {
+    name: 'AM505 — Al-Muhajereen → Wadi Seer',
+    color: '#FF6B35',
+    stops: [
+      { name: 'Al-Muhajereen',  lat: 31.9650, lng: 35.9100 },
+      { name: '3rd Circle',     lat: 31.9570, lng: 35.9000 },
+      { name: '4th Circle',     lat: 31.9520, lng: 35.8900 },
+      { name: 'Wadi Seer',      lat: 31.9481, lng: 35.8402 },
+    ],
+  },
+  R12: {
+    name: 'Route 12 — Tabarbour → Downtown',
+    color: '#7C3AED',
+    stops: [
+      { name: 'Tabarbour',    lat: 32.0200, lng: 36.0000 },
+      { name: 'Wadi Saqra',   lat: 31.9700, lng: 35.9100 },
+      { name: 'Downtown',     lat: 31.9539, lng: 35.9106 },
+    ],
+  },
+  SARF: {
+    name: 'Sarfees — Abdali → Mecca Mall',
+    color: '#FF9F43',
+    stops: [
+      { name: 'Abdali',         lat: 31.9773, lng: 35.9060 },
+      { name: 'Mecca Mall',     lat: 31.9310, lng: 35.8570 },
+    ],
+  },
+  ALAT: {
+    name: 'Alatroon — Alatroon → Al Mahatta',
+    color: '#FF5252',
+    stops: [
+      { name: 'Alatroon Hospital', lat: 31.9900, lng: 35.9200 },
+      { name: 'Salt Road',         lat: 32.0100, lng: 35.9500 },
+      { name: 'Zarqa Bridge',      lat: 32.0700, lng: 36.0800 },
+      { name: 'Al Mahatta',        lat: 31.9539, lng: 35.9106 },
+    ],
+  },
 };
 
-function classifyStatus(raw: string): AIStatus {
-  const s = raw.toLowerCase();
-  if (s === 'gridlock')                       return 'gridlock';
-  if (s === 'high' || s === 'heavy')          return 'high';
-  if (s === 'moderate' || s === 'medium')     return 'moderate';
+const AMMAN_CENTER = { lat: 31.9700, lng: 35.8800 };
+
+type AIStatus = 'clear' | 'moderate' | 'high' | 'gridlock';
+
+const STATUS_CFG: Record<AIStatus, {
+  label: string; bg: string; color: string; icon: React.ReactNode;
+}> = {
+  clear:    { label: 'Clear ahead',       bg: '#E0FBF4', color: '#00A87C', icon: <Wind size={15}/> },
+  moderate: { label: 'Moderate traffic',  bg: '#FFF4E6', color: '#C87800', icon: <TrendingUp size={15}/> },
+  high:     { label: 'Heavy congestion',  bg: '#FFF0EA', color: '#E5521C', icon: <AlertTriangle size={15}/> },
+  gridlock: { label: 'Gridlock detected', bg: '#FFECEC', color: '#CC0000', icon: <AlertTriangle size={15}/> },
+};
+
+function classifyStatus(s: string): AIStatus {
+  const l = s.toLowerCase();
+  if (l === 'gridlock') return 'gridlock';
+  if (l === 'high' || l === 'heavy' || l === 'full') return 'high';
+  if (l === 'moderate' || l === 'medium') return 'moderate';
   return 'clear';
 }
 
-/* ─── ETA countdown display ──────────────────────────── */
-function ETADisplay({ minutes, hasDelay }: { minutes: number; hasDelay: boolean }) {
-  const [displayed, setDisplayed] = useState(minutes);
-
-  // count-up animation when value changes
-  useEffect(() => {
-    let frame = 0;
-    const start = displayed;
-    const end   = minutes;
-    const diff  = Math.abs(end - start);
-    if (diff === 0) return;
-    const step = () => {
-      frame++;
-      const progress = Math.min(frame / (diff * 6), 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      setDisplayed(Math.round(start + (end - start) * ease));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [minutes]);
-
-  const mins = Math.max(0, displayed);
-  const secs = 0; // could wire to a real second-countdown
-
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <div style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '4.5rem', fontWeight: 800,
-        color: 'white', lineHeight: 1,
-        letterSpacing: '-0.04em',
-        textShadow: '0 2px 12px rgba(0,0,0,0.15)',
-        transition: 'color 0.4s',
-      }}>
-        {String(mins).padStart(2, '0')}
-        <span style={{ fontSize: '2rem', fontWeight: 500, opacity: 0.7, marginLeft: 4 }}>min</span>
-      </div>
-      {hasDelay && (
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 6,
-          background: 'rgba(255,255,255,0.18)', borderRadius: 99,
-          padding: '3px 12px', fontSize: 12, fontWeight: 700, color: 'white',
-        }}>
-          <TrendingUp size={11} />
-          Running late
-        </div>
-      )}
-    </div>
-  );
+function formatTime(mins: number): string {
+  const now  = new Date();
+  now.setMinutes(now.getMinutes() + mins);
+  const h    = now.getHours();
+  const m    = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12  = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
 }
 
-/* ─── stop timeline ───────────────────────────────────── */
-function StopTimeline({ stops, currentIdx }: { stops: Stop[]; currentIdx: number }) {
-  const progress = currentIdx / (stops.length - 1);
-
-  return (
-    <div style={{ padding: '1.25rem' }}>
-      {/* Progress track */}
-      <div style={{ position: 'relative', paddingLeft: 24 }}>
-        {/* Vertical line */}
-        <div style={{
-          position: 'absolute', left: 11, top: 10, bottom: 10,
-          width: 2, background: '#EEF3F8', borderRadius: 2,
-        }}>
-          {/* Filled progress */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            height: `${progress * 100}%`,
-            background: 'linear-gradient(to bottom, #00C896, #00A87C)',
-            borderRadius: 2,
-            transition: 'height 0.8s cubic-bezier(0.4,0,0.2,1)',
-          }} />
-        </div>
-
-        {stops.map((stop, i) => {
-          const isDone    = stop.status === 'completed';
-          const isCurrent = stop.status === 'current';
-          const isUpcoming= stop.status === 'upcoming';
-
-          return (
-            <div key={i} style={{
-              display: 'flex', alignItems: 'flex-start', gap: 16,
-              marginBottom: i < stops.length - 1 ? '1.5rem' : 0,
-              opacity: isUpcoming ? 0.65 : 1,
-              transition: 'opacity 0.3s',
-            }}>
-              {/* Node */}
-              <div style={{
-                position: 'relative', width: 22, height: 22,
-                flexShrink: 0, marginLeft: -23, marginTop: -1,
-              }}>
-                {/* Outer ring for current */}
-                {isCurrent && (
-                  <div style={{
-                    position: 'absolute', inset: -5,
-                    borderRadius: '50%',
-                    border: '2px solid rgba(0,200,150,0.3)',
-                    animation: 'st-ring-pulse 1.8s ease-in-out infinite',
-                  }} />
-                )}
-                <div style={{
-                  width: 22, height: 22, borderRadius: '50%',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: isDone ? '#00C896' : isCurrent ? '#0F2240' : 'white',
-                  border: `2.5px solid ${isDone ? '#00C896' : isCurrent ? '#00C896' : '#DDE6EE'}`,
-                  boxShadow: isCurrent ? '0 0 0 4px rgba(0,200,150,0.2)' : 'none',
-                  transition: 'all 0.4s ease',
-                  zIndex: 1, position: 'relative',
-                }}>
-                  {isDone && <CheckCircle2 size={12} color="white" strokeWidth={3} />}
-                  {isCurrent && (
-                    <div style={{
-                      width: 8, height: 8, borderRadius: '50%',
-                      background: '#00C896',
-                      animation: 'st-dot-pulse 1.2s ease-in-out infinite',
-                    }} />
-                  )}
-                  {isUpcoming && (
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#DDE6EE' }} />
-                  )}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div style={{ flex: 1, paddingTop: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{
-                      fontSize: '0.9rem', fontWeight: isCurrent ? 700 : 600,
-                      color: isCurrent ? '#00A87C' : isDone ? '#4A6580' : '#0F2240',
-                      transition: 'color 0.3s',
-                    }}>
-                      {stop.name}
-                    </div>
-                    {isCurrent && (
-                      <div style={{
-                        display: 'inline-flex', alignItems: 'center', gap: 4,
-                        fontSize: 11, color: '#00A87C', fontWeight: 600, marginTop: 2,
-                      }}>
-                        <Radio size={10} style={{ animation: 'st-dot-pulse 1.2s ease-in-out infinite' }} />
-                        Bus is here now
-                      </div>
-                    )}
-                    {isDone && (
-                      <div style={{ fontSize: 11, color: '#7A92A8', fontWeight: 500, marginTop: 1 }}>
-                        Departed
-                      </div>
-                    )}
-                  </div>
-                  <div style={{
-                    fontSize: '0.82rem', fontWeight: isCurrent ? 700 : 500,
-                    color: isCurrent ? '#0F2240' : '#7A92A8',
-                    background: isCurrent ? '#F4F8FB' : 'transparent',
-                    padding: isCurrent ? '2px 9px' : '2px 0',
-                    borderRadius: 99,
-                  }}>
-                    {stop.time}
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ─── AI status banner ─────────────────────────────────── */
-function AIBanner({
-  status, delay, apiState, lastUpdated, onRefresh,
-}: {
-  status: AIStatus; delay: number; apiState: APIState;
-  lastUpdated: Date | null; onRefresh: () => void;
-}) {
-  const cfg = AI_STATUS_CFG[status];
-  const isLoading = apiState === 'loading';
-
-  return (
-    <div style={{
-      background: cfg.bg,
-      border: `1.5px solid ${cfg.border}`,
-      borderRadius: 14, padding: '0.95rem 1rem',
-      transition: 'all 0.4s ease',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, flex: 1 }}>
-          {/* Icon */}
-          <div style={{
-            width: 32, height: 32, borderRadius: 10,
-            background: 'rgba(255,255,255,0.7)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: cfg.color, flexShrink: 0,
-          }}>
-            {isLoading
-              ? <RefreshCw size={14} style={{ animation: 'st-spin 1s linear infinite' }} />
-              : cfg.icon
-            }
-          </div>
-
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 3 }}>
-              <span style={{ fontSize: 10, fontWeight: 800, color: cfg.color,
-                textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                AI · Traffic
-              </span>
-              <Sparkles size={9} color={cfg.color} />
-              {apiState === 'ok' && (
-                <span style={{ fontSize: 10, fontWeight: 600, color: '#7A92A8' }}>
-                  Live
-                </span>
-              )}
-              {apiState === 'error' && (
-                <span style={{ fontSize: 10, fontWeight: 600, color: '#CC0000' }}>
-                  Offline
-                </span>
-              )}
-            </div>
-            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0F2240', marginBottom: 2 }}>
-              {isLoading ? 'Analysing traffic data…' : cfg.label}
-            </div>
-            {!isLoading && delay > 0 && (
-              <div style={{ fontSize: '0.78rem', color: '#4A6580', lineHeight: 1.4 }}>
-                Expected delay: <strong style={{ color: cfg.color }}>+{delay} min</strong> ·
-                {status === 'gridlock' && ' Consider next departure'}
-                {status === 'high' && ' Allow extra time'}
-                {status === 'moderate' && ' Minor impact only'}
-              </div>
-            )}
-            {!isLoading && delay === 0 && (
-              <div style={{ fontSize: '0.78rem', color: '#4A6580' }}>
-                Route is running on schedule
-              </div>
-            )}
-            {lastUpdated && (
-              <div style={{ fontSize: 10, color: '#7A92A8', marginTop: 4, fontWeight: 500 }}>
-                Updated {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Refresh button */}
-        <button onClick={onRefresh}
-          style={{
-            width: 30, height: 30, borderRadius: 8,
-            background: 'rgba(255,255,255,0.7)', border: 'none',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', color: cfg.color, flexShrink: 0,
-            transition: 'background 0.2s',
-          }}
-          onMouseEnter={e => e.currentTarget.style.background = 'white'}
-          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.7)'}
-        >
-          <RefreshCw size={13} style={isLoading ? { animation: 'st-spin 1s linear infinite' } : {}} />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* ─── main component ──────────────────────────────────── */
 export function LiveTracking() {
-  const { t, isRTL, lang } = useLang();
-
-  const location = useLocation();
+  const { t } = useLang();
   const navigate  = useNavigate();
-  const { routeId = 1, from = 'Sweileh', to = 'UJ' } = location.state || {};
+  const location  = useLocation();
+  const state     = (location.state as any) || {};
 
-  const routeData    = ROUTE_DATA[routeId] ?? ROUTE_DATA[1];
-  const routeName    = routeData.name;
+  // routeId comes from RouteResults.tsx via navigate('/tracking', { state: { routeId, from, to } })
+  const routeId   = state.routeId || 'AM503';
+  const fromStop  = state.from    || '';
+  const toStop    = state.to      || '';
 
-  /* ETA & delay state */
-  const [minutesLeft,  setMinutesLeft]  = useState(8);
-  const [aiDelay,      setAiDelay]      = useState(0);
-  const [aiStatus,     setAiStatus]     = useState<AIStatus>('clear');
-  const [apiState,     setApiState]     = useState<APIState>('idle');
-  const [lastUpdated,  setLastUpdated]  = useState<Date | null>(null);
-  const [currentIdx,   setCurrentIdx]   = useState(1);
-  const [mounted,      setMounted]      = useState(false);
+  const routeMeta = ROUTE_STOPS[routeId] || ROUTE_STOPS['AM503'];
 
-  /* Bus position interpolation (lat/lng between stops) */
-  const [busProgress, setBusProgress] = useState(0.5); // 0→1 between current and next stop
-  const busProgressRef = useRef(busProgress);
-  busProgressRef.current = busProgress;
+  // Live prediction state
+  const [liveData,    setLiveData]    = useState<any>(null);
+  const [loading,     setLoading]     = useState(true);
+  const [refreshing,  setRefreshing]  = useState(false);
+  const [error,       setError]       = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [mounted,     setMounted]     = useState(false);
 
-  /* Countdown ticker */
-  const [secsLeft, setSecsLeft] = useState(minutesLeft * 60);
   useEffect(() => {
-    setSecsLeft(minutesLeft * 60);
-  }, [minutesLeft]);
-  useEffect(() => {
-    const iv = setInterval(() => setSecsLeft(s => Math.max(0, s - 1)), 1000);
-    return () => clearInterval(iv);
+    setTimeout(() => setMounted(true), 80);
   }, []);
 
-  /* Animate bus along route */
-  useEffect(() => {
-    const iv = setInterval(() => {
-      setBusProgress(p => {
-        if (p >= 0.98) return 0; // loop for demo
-        return p + 0.003;
-      });
-    }, 120);
-    return () => clearInterval(iv);
-  }, []);
+  // Fetch live prediction for this route
+  const fetchLive = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
+    else setRefreshing(true);
+    setError(null);
 
-  /* Mount */
-  useEffect(() => { setTimeout(() => setMounted(true), 80); }, []);
-
-  /* ── AI backend hook (exact pattern from original) ── */
-  const fetchAIPrediction = useCallback(async () => {
-    setApiState('loading');
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/predict?density=1.5&waiting_time=5.0`
-      );
-      const data: AIResponse = await response.json();
+      const url = `${API_URL}/route-predictions?from=${encodeURIComponent(fromStop)}&to=${encodeURIComponent(toStop)}`;
+      const res = await fetch(url, {
+        headers: { 'ngrok-skip-browser-warning': 'true' },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
 
-      setMinutesLeft(Math.max(1, Math.round(data.delay)));
-      const status = classifyStatus(data.status);
-      setAiStatus(status);
-      setAiDelay(status === 'clear' ? 0 : Math.round(data.delay * 0.3));
-      setApiState('ok');
+      // Find this specific route in the predictions
+      const route = data.routes?.find((r: any) => r.route_id === routeId)
+                 ?? data.routes?.[0];
+
+      if (route) setLiveData(route);
       setLastUpdated(new Date());
-    } catch {
-      // backend offline → graceful fallback with simulated data
-      setApiState('error');
-      setLastUpdated(new Date());
+    } catch (e) {
+      setError('Live data unavailable');
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
     }
-  }, []);
+  }, [routeId, fromStop, toStop]);
 
+  useEffect(() => { fetchLive(); }, [fetchLive]);
+
+  // Auto-refresh every 60s
   useEffect(() => {
-    fetchAIPrediction();
-    const interval = setInterval(fetchAIPrediction, 10000);
-    return () => clearInterval(interval);
-  }, [fetchAIPrediction]);
+    const iv = setInterval(() => fetchLive(true), 60_000);
+    return () => clearInterval(iv);
+  }, [fetchLive]);
 
-  /* derived */
-  const hasDelay   = aiDelay > 0;
-  const displayMins = Math.ceil(secsLeft / 60);
-  const currentStop = routeData.stops[currentIdx];
-  const nextStop    = routeData.stops[currentIdx + 1];
+  // Derived values from live data
+  const aiStatus    = liveData ? classifyStatus(liveData.crowding || liveData.ai_status || 'moderate') : 'moderate';
+  const statusCfg   = STATUS_CFG[aiStatus];
+  const delayMin    = liveData?.delay_min ?? 0;
+  const arrivalTime = liveData?.arrival_time ?? formatTime(30);
+  const durationMin = liveData?.duration_min ?? 25;
+  const confidence  = liveData?.ai_confidence ?? 80;
+  const crowding    = liveData?.crowding ?? 'moderate';
+  const nextDep     = liveData?.next_departure ?? '5 min';
 
-  /* live bus marker position (interpolated) */
-  const busLat = currentStop && nextStop
-    ? currentStop.lat + (nextStop.lat - currentStop.lat) * busProgress
-    : currentStop?.lat ?? 31.9560;
-  const busLng = currentStop && nextStop
-    ? currentStop.lng + (nextStop.lng - currentStop.lng) * busProgress
-    : currentStop?.lng ?? 35.8950;
+  // Build stop list with estimated times
+  const stops = routeMeta.stops.map((stop, i) => {
+    const fraction    = i / (routeMeta.stops.length - 1);
+    const estMinsFromNow = Math.round(fraction * durationMin) + delayMin;
+    const isPast      = fraction < 0.3;
+    const isCurrent   = fraction >= 0.3 && fraction < 0.6;
+    return {
+      ...stop,
+      time:   formatTime(estMinsFromNow),
+      status: isPast ? 'completed' : isCurrent ? 'current' : 'upcoming',
+    };
+  });
 
-  const mapMarkers = [
-    ...routeData.stops.map(s => ({ position: [s.lat, s.lng] as [number, number], label: s.name })),
-    { position: [busLat, busLng] as [number, number], label: '🚌 Your bus' },
-  ];
-  const mapRoute = routeData.stops.map(s => [s.lat, s.lng] as [number, number]);
+  const currentStop = stops.find(s => s.status === 'current') ?? stops[0];
+  const mapCenter   = currentStop
+    ? { lat: currentStop.lat, lng: currentStop.lng }
+    : AMMAN_CENTER;
 
-  /* ETA card gradient — shifts red as delay grows */
-  const etaBg = hasDelay
-    ? 'linear-gradient(135deg, #1E3A5F 0%, #2C527A 100%)'
-    : 'linear-gradient(135deg, #0F2240 0%, #1E3A5F 100%)';
-
-  /* ── shared panel content ─────────────────────────── */
-  const renderPanel = (compact = false) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: compact ? 12 : 16 }}>
-
-      {/* ── ETA card ──────────────────────────────────── */}
-      <div style={{
-        background: etaBg,
-        borderRadius: compact ? 18 : 20,
-        padding: compact ? '1.1rem 1.25rem' : '1.5rem',
-        position: 'relative', overflow: 'hidden',
-        boxShadow: '0 8px 32px rgba(15,34,64,0.25)',
-        opacity: mounted ? 1 : 0, transform: mounted ? 'none' : 'translateY(12px)',
-        transition: 'all 0.5s ease',
-      }}>
-        {/* Background glow */}
-        <div style={{
-          position: 'absolute', top: -40, right: -40,
-          width: 160, height: 160, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,200,150,0.15) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: -30, left: -20,
-          width: 120, height: 120, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,200,150,0.08) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-
-        {/* Label + live dot */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: compact ? 12 : 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Navigation size={compact ? 14 : 16} color="rgba(255,255,255,0.7)" />
-            <span style={{ fontSize: compact ? '0.78rem' : '0.85rem', fontWeight: 600,
-              color: 'rgba(255,255,255,0.75)', letterSpacing: '0.02em' }}>
-              Your bus arrives in
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5,
-            background: 'rgba(0,200,150,0.2)', borderRadius: 99, padding: '3px 10px' }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#00C896',
-              animation: 'st-dot-pulse 1.4s ease-in-out infinite' }} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#00C896', letterSpacing: '0.05em' }}>LIVE</span>
-          </div>
-        </div>
-
-        {/* Big time */}
-        <div style={{
-          display: 'flex', alignItems: 'flex-end', gap: 12,
-          marginBottom: compact ? 8 : 12,
-        }}>
-          <div style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: compact ? '3.5rem' : '4.5rem', fontWeight: 800,
-            color: 'white', lineHeight: 1, letterSpacing: '-0.04em',
-          }}>
-            {String(displayMins).padStart(2, '0')}
-            <span style={{ fontSize: compact ? '1.5rem' : '2rem', fontWeight: 500,
-              opacity: 0.6, marginLeft: 4 }}>min</span>
-          </div>
-
-          {/* Seconds ticker */}
-          <div style={{ paddingBottom: compact ? 6 : 8, opacity: 0.55 }}>
-            <div style={{ fontSize: '0.7rem', color: 'white', fontWeight: 500 }}>
-              {String(secsLeft % 60).padStart(2, '0')} sec
-            </div>
-          </div>
-        </div>
-
-        {/* Next stop */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          background: 'rgba(255,255,255,0.08)', borderRadius: 10, padding: '8px 12px',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <Bus size={13} color="rgba(255,255,255,0.6)" />
-            <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>
-              Next stop
-            </span>
-            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'white' }}>
-              {nextStop?.name ?? currentStop?.name}
-            </span>
-          </div>
-          {hasDelay && (
-            <span style={{ fontSize: 11, fontWeight: 700, color: '#FF9F43',
-              background: 'rgba(255,159,67,0.18)', padding: '2px 8px', borderRadius: 99 }}>
-              +{aiDelay} min
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* ── AI banner ────────────────────────────────── */}
-      <div style={{
-        opacity: mounted ? 1 : 0, transition: 'opacity 0.5s 0.15s ease',
-      }}>
-        <AIBanner
-          status={aiStatus}
-          delay={aiDelay}
-          apiState={apiState}
-          lastUpdated={lastUpdated}
-          onRefresh={fetchAIPrediction}
-        />
-      </div>
-
-      {/* ── Stop timeline ─────────────────────────────── */}
-      <div style={{
-        background: 'white', borderRadius: 16,
-        border: '1px solid #EEF3F8',
-        boxShadow: '0 2px 12px rgba(15,34,64,0.06)',
-        overflow: 'hidden',
-        opacity: mounted ? 1 : 0, transform: mounted ? 'none' : 'translateY(8px)',
-        transition: 'all 0.5s 0.2s ease',
-      }}>
-        {/* Header */}
-        <div style={{
-          padding: '0.875rem 1.25rem',
-          borderBottom: '1px solid #EEF3F8',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0F2240' }}>
-            Route Progress
-          </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6,
-            fontSize: 11, color: '#00A87C', fontWeight: 600 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#00C896',
-              animation: 'st-dot-pulse 1.4s ease-in-out infinite' }} />
-            {routeData.stops.filter(s => s.status === 'completed').length} of {routeData.stops.length} stops
-          </div>
-        </div>
-
-        <StopTimeline stops={routeData.stops} currentIdx={currentIdx} />
-      </div>
-
-      {/* ── Next bus card ─────────────────────────────── */}
-      <div style={{
-        background: 'white', borderRadius: 14,
-        border: '1px solid #EEF3F8',
-        borderLeft: '3.5px solid #00C896',
-        padding: '0.875rem 1rem',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-        opacity: mounted ? 1 : 0, transition: 'opacity 0.5s 0.3s ease',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: '#E0FBF4',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <Bus size={16} color="#00A87C" />
-          </div>
-          <div>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0F2240' }}>
-              Next {routeName}
-            </div>
-            <div style={{ fontSize: '0.75rem', color: '#7A92A8', marginTop: 1 }}>
-              Following bus · space available
-            </div>
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#00A87C' }}>
-            4 min
-          </span>
-          <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 99,
-            background: '#E0FBF4', color: '#00A87C' }}>
-            Available
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-
-  /* ── render ───────────────────────────────────────── */
   return (
     <div style={{ minHeight: 'calc(100vh - 4rem)', background: '#F4F8FB' }}>
 
-      {/* Keyframes */}
-      <style>{`
-        @keyframes st-dot-pulse {
-          0%,100% { opacity:1; transform:scale(1); }
-          50%      { opacity:.5; transform:scale(.85); }
-        }
-        @keyframes st-ring-pulse {
-          0%,100% { opacity:.6; transform:scale(1); }
-          50%      { opacity:0; transform:scale(1.4); }
-        }
-        @keyframes st-spin {
-          from { transform:rotate(0deg); }
-          to   { transform:rotate(360deg); }
-        }
-        @keyframes st-fade-up {
-          from { opacity:0; transform:translateY(14px); }
-          to   { opacity:1; transform:translateY(0); }
-        }
-      `}</style>
+      {/* ── Header ─────────────────────────────────── */}
+      <div style={{
+        background: 'white', borderBottom: '1px solid #EEF3F8',
+        padding: '1rem 1.25rem',
+        boxShadow: '0 2px 12px rgba(15,34,64,0.06)',
+        display: 'flex', alignItems: 'center', gap: 12,
+      }}>
+        <button onClick={() => navigate(-1)}
+          style={{ width: 34, height: 34, borderRadius: 10, border: '1.5px solid #EEF3F8', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <ArrowLeft size={15} color="#4A6580" />
+        </button>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ width: 10, height: 10, borderRadius: '50%', background: routeMeta.color }} />
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: '#0F2240' }}>
+              {routeMeta.name}
+            </span>
+          </div>
+          {fromStop && toStop && (
+            <div style={{ fontSize: 11, color: '#7A92A8', marginTop: 2 }}>
+              {fromStop} → {toStop}
+            </div>
+          )}
+        </div>
+        <button onClick={() => fetchLive(true)} disabled={refreshing}
+          style={{ width: 32, height: 32, borderRadius: 9, border: '1.5px solid #EEF3F8', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <RefreshCw size={13} color="#4A6580"
+            style={{ animation: refreshing ? 'spin 1s linear infinite' : 'none' }} />
+        </button>
+      </div>
 
-      {/* ── DESKTOP ─────────────────────────────────── */}
-      <div className="hidden lg:flex" style={{ height: 'calc(100vh - 4rem)' }}>
+      {/* ── Map ────────────────────────────────────── */}
+      <div style={{ height: 260, position: 'relative' }}>
+        <Map
+          mapId={MAP_ID}
+          defaultCenter={mapCenter}
+          defaultZoom={13}
+          style={{ width: '100%', height: '100%' }}
+          gestureHandling="greedy"
+          disableDefaultUI={true}
+        >
+          {/* Bus position marker */}
+          {currentStop && (
+            <AdvancedMarker position={{ lat: currentStop.lat, lng: currentStop.lng }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: '50%',
+                background: routeMeta.color,
+                border: '3px solid white',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              }}>
+                <Bus size={16} color="white" />
+              </div>
+            </AdvancedMarker>
+          )}
 
-        {/* Left sidebar */}
+          {/* Stop markers */}
+          {stops.map((stop, i) => (
+            <AdvancedMarker key={i} position={{ lat: stop.lat, lng: stop.lng }}>
+              <div style={{
+                width: stop.status === 'current' ? 14 : 10,
+                height: stop.status === 'current' ? 14 : 10,
+                borderRadius: '50%',
+                background: stop.status === 'completed' ? '#B0BEC5'
+                          : stop.status === 'current'   ? routeMeta.color
+                          : 'white',
+                border: `2px solid ${routeMeta.color}`,
+              }} />
+            </AdvancedMarker>
+          ))}
+        </Map>
+
+        {/* AI status badge on map */}
         <div style={{
-          width: 420, flexShrink: 0,
-          display: 'flex', flexDirection: 'column',
-          background: 'white', borderRight: '1px solid #EEF3F8',
-          boxShadow: '4px 0 24px rgba(15,34,64,0.06)',
-          overflowY: 'auto',
+          position: 'absolute', top: 12, left: 12, zIndex: 20,
+          background: statusCfg.bg, borderRadius: 20,
+          padding: '5px 12px',
+          display: 'flex', alignItems: 'center', gap: 6,
+          fontSize: 11, fontWeight: 700, color: statusCfg.color,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
         }}>
-          {/* Header */}
-          <div style={{ padding: '1.5rem 1.5rem 0' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-              <button onClick={() => navigate(-1)}
-                style={{
-                  width: 34, height: 34, borderRadius: 10,
-                  border: '1.5px solid #EEF3F8', background: 'white',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', flexShrink: 0, transition: 'border-color 0.2s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = '#00C896'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = '#EEF3F8'}
-              >
-                <ArrowLeft size={15} color="#4A6580" />
-              </button>
-
-              <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem',
-                  fontWeight: 800, color: '#0F2240', letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-                  Live Tracking
-                </div>
-                <div style={{ fontSize: '0.78rem', color: '#7A92A8', marginTop: 2, fontWeight: 500,
-                  display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <span style={{ fontWeight: 600, color: '#4A6580' }}>{routeName}</span>
-                  <span>·</span>
-                  <span>{from}</span>
-                  <ChevronRight size={11} color="#7A92A8" />
-                  <span>{to}</span>
-                </div>
-              </div>
-
-              {/* Live indicator */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5,
-                background: '#E0FBF4', borderRadius: 20, padding: '4px 10px', flexShrink: 0 }}>
-                <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#00C896',
-                  animation: 'st-dot-pulse 1.4s ease-in-out infinite' }} />
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#00A87C' }}>Live</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Panel content */}
-          <div style={{ padding: '0 1.5rem 2rem' }}>
-            {renderPanel(false)}
-          </div>
+          {statusCfg.icon}
+          {statusCfg.label}
         </div>
 
-        {/* Map */}
-        <div style={{ flex: 1, position: 'relative' }}>
-          <MapPreview
-            height="100%"
-            markers={mapMarkers}
-            route={mapRoute}
-            zoom={13}
-          />
-
-          {/* Floating ETA badge on map */}
-          <div style={{
-            position: 'absolute', top: 16, right: 16, zIndex: 20,
-            background: '#0F2240', color: 'white', borderRadius: 14,
-            padding: '0.6rem 1rem',
-            boxShadow: '0 4px 20px rgba(15,34,64,0.3)',
-            display: 'flex', alignItems: 'center', gap: 8,
-            opacity: mounted ? 1 : 0, transition: 'opacity 0.5s 0.5s ease',
-          }}>
-            <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#00C896',
-              animation: 'st-dot-pulse 1.4s ease-in-out infinite' }} />
-            <span style={{ fontSize: 12, fontWeight: 700 }}>
-              {routeName} · {displayMins} min away
-            </span>
-          </div>
-
-          {/* Bus icon overlay */}
-          <div style={{
-            position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)',
-            zIndex: 20, background: 'white', borderRadius: 14,
-            padding: '0.6rem 1.25rem',
-            boxShadow: '0 4px 20px rgba(15,34,64,0.14)',
-            display: 'flex', alignItems: 'center', gap: 10,
-            opacity: mounted ? 1 : 0, transition: 'opacity 0.5s 0.7s ease',
-            whiteSpace: 'nowrap',
-          }}>
-            <span style={{ fontSize: 18 }}>🚌</span>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#0F2240' }}>{routeName} · On route</div>
-              <div style={{ fontSize: 10, color: '#7A92A8', fontWeight: 500 }}>
-                Heading to {nextStop?.name ?? currentStop?.name}
-              </div>
-            </div>
-            <div style={{ width: 1, height: 28, background: '#EEF3F8' }} />
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 16, fontWeight: 800, color: '#00A87C', letterSpacing: '-0.02em' }}>
-                {displayMins}m
-              </div>
-              <div style={{ fontSize: 9, color: '#7A92A8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                ETA
-              </div>
-            </div>
-          </div>
+        {/* Live dot */}
+        <div style={{
+          position: 'absolute', top: 12, right: 12, zIndex: 20,
+          background: 'rgba(255,255,255,0.95)',
+          borderRadius: 20, padding: '4px 12px',
+          display: 'flex', alignItems: 'center', gap: 6,
+          fontSize: 11, fontWeight: 600, color: '#0F2240',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+        }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00C896', animation: 'pulse 2s infinite' }} />
+          LIVE
         </div>
       </div>
 
-      {/* ── MOBILE ──────────────────────────────────── */}
-      <div className="lg:hidden">
-        {/* Map hero */}
-        <div style={{ position: 'relative', height: 260, flexShrink: 0 }}>
-          <MapPreview height="100%" markers={mapMarkers} route={mapRoute} zoom={13} />
+      {/* ── Content ────────────────────────────────── */}
+      <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-          {/* Gradient overlay */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, transparent 50%, rgba(244,248,251,0.95))',
-            pointerEvents: 'none', zIndex: 5,
-          }} />
+        {/* Error banner */}
+        {error && (
+          <div style={{ background: '#FFF4E6', border: '1px solid #FFE0B2', borderRadius: 10, padding: '8px 12px', fontSize: 11, color: '#C87800', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <AlertTriangle size={12} /> {error} — showing cached predictions
+          </div>
+        )}
 
-          {/* Back button */}
-          <button onClick={() => navigate(-1)}
-            style={{
-              position: 'absolute', top: 12, left: 12, zIndex: 20,
-              width: 34, height: 34, borderRadius: 10,
-              background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.6)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', boxShadow: '0 2px 12px rgba(15,34,64,0.15)',
+        {/* AI Prediction Card */}
+        <div style={{
+          background: 'white', borderRadius: 16,
+          border: '1px solid #EEF3F8',
+          padding: '1rem',
+          boxShadow: '0 2px 12px rgba(15,34,64,0.06)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+            <Sparkles size={14} color="#00C896" />
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#00A87C', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+              AI Prediction · {confidence}% confidence
+            </span>
+            {lastUpdated && (
+              <span style={{ fontSize: 10, color: '#7A92A8', marginLeft: 'auto' }}>
+                {lastUpdated.toLocaleTimeString()}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+            {[
+              { icon: <Clock size={14} color="#7A92A8" />,      label: 'Arrives',   value: loading ? '—' : arrivalTime },
+              { icon: <Navigation size={14} color="#7A92A8" />, label: 'Duration',  value: loading ? '—' : `${durationMin} min` },
+              { icon: <Zap size={14} color="#7A92A8" />,        label: 'Next bus',  value: loading ? '—' : nextDep },
+            ].map(item => (
+              <div key={item.label} style={{ background: '#F4F8FB', borderRadius: 10, padding: '0.6rem', textAlign: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>{item.icon}</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0F2240', fontFamily: 'var(--font-display)' }}>
+                  {item.value}
+                </div>
+                <div style={{ fontSize: 10, color: '#7A92A8' }}>{item.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {delayMin > 0 && (
+            <div style={{ marginTop: 10, padding: '6px 10px', background: '#FFF4E6', borderRadius: 8, fontSize: 11, color: '#C87800', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <TrendingUp size={11} /> +{delayMin} min delay detected on this route
+            </div>
+          )}
+        </div>
+
+        {/* Stop Timeline */}
+        <div style={{ background: 'white', borderRadius: 16, border: '1px solid #EEF3F8', padding: '1rem', boxShadow: '0 2px 12px rgba(15,34,64,0.06)' }}>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0F2240', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
+            Stop Timeline
+          </div>
+
+          {stops.map((stop, i) => {
+            const isLast    = i === stops.length - 1;
+            const dotColor  = stop.status === 'completed' ? '#B0BEC5'
+                            : stop.status === 'current'   ? routeMeta.color
+                            : '#DDE6EE';
+            return (
+              <div key={i} style={{ display: 'flex', gap: 12, marginBottom: isLast ? 0 : 4 }}>
+                {/* Timeline line + dot */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                  <div style={{
+                    width: stop.status === 'current' ? 12 : 9,
+                    height: stop.status === 'current' ? 12 : 9,
+                    borderRadius: '50%',
+                    background: dotColor,
+                    border: stop.status === 'current' ? `2px solid ${routeMeta.color}` : 'none',
+                    marginTop: 3,
+                    boxShadow: stop.status === 'current' ? `0 0 0 3px ${routeMeta.color}22` : 'none',
+                  }} />
+                  {!isLast && (
+                    <div style={{ width: 2, flex: 1, background: i < stops.findIndex(s => s.status === 'current') ? routeMeta.color : '#EEF3F8', minHeight: 20 }} />
+                  )}
+                </div>
+
+                {/* Stop info */}
+                <div style={{ flex: 1, paddingBottom: isLast ? 0 : 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{
+                      fontSize: '0.85rem',
+                      fontWeight: stop.status === 'current' ? 700 : 500,
+                      color: stop.status === 'completed' ? '#B0BEC5' : '#0F2240',
+                    }}>
+                      {stop.name}
+                      {stop.status === 'current' && (
+                        <span style={{ marginLeft: 6, fontSize: 10, fontWeight: 700, color: routeMeta.color, background: `${routeMeta.color}15`, padding: '1px 6px', borderRadius: 99 }}>
+                          BUS HERE
+                        </span>
+                      )}
+                    </span>
+                    <span style={{ fontSize: 11, color: stop.status === 'completed' ? '#B0BEC5' : '#7A92A8', fontWeight: 500 }}>
+                      {stop.time}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Crowding info */}
+        <div style={{ background: 'white', borderRadius: 16, border: '1px solid #EEF3F8', padding: '1rem', boxShadow: '0 2px 12px rgba(15,34,64,0.06)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0F2240', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Bus Load</span>
+            <span style={{
+              fontSize: 11, fontWeight: 700, padding: '2px 9px', borderRadius: 99,
+              background: crowding === 'available' ? '#E0FBF4' : crowding === 'full' ? '#FFECEC' : '#FFF4E6',
+              color: crowding === 'available' ? '#00A87C' : crowding === 'full' ? '#CC0000' : '#C87800',
             }}>
-            <ArrowLeft size={15} color="#0F2240" />
-          </button>
-
-          {/* Live badge */}
-          <div style={{
-            position: 'absolute', top: 12, right: 12, zIndex: 20,
-            background: 'rgba(15,34,64,0.85)', backdropFilter: 'blur(8px)',
-            borderRadius: 99, padding: '4px 12px',
-            display: 'flex', alignItems: 'center', gap: 5,
-            boxShadow: '0 2px 12px rgba(15,34,64,0.2)',
-          }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#00C896',
-              animation: 'st-dot-pulse 1.4s ease-in-out infinite' }} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>Live · {routeName}</span>
-          </div>
-        </div>
-
-        {/* Scrollable content */}
-        <div style={{ padding: '0 1rem 6rem', marginTop: -20, position: 'relative', zIndex: 10 }}>
-          {/* Route label */}
-          <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800,
-              color: '#0F2240', letterSpacing: '-0.025em' }}>{t.tracking.title}</span>
-            <span style={{ fontSize: '0.78rem', color: '#7A92A8', fontWeight: 500 }}>
-              · {from} → {to}
+              {crowding === 'available' ? 'Available' : crowding === 'full' ? 'Full' : 'Moderate'}
             </span>
           </div>
-          {renderPanel(true)}
+          <div style={{ height: 8, background: '#EEF3F8', borderRadius: 4, overflow: 'hidden' }}>
+            <div style={{
+              height: '100%', borderRadius: 4,
+              width: crowding === 'available' ? '35%' : crowding === 'full' ? '95%' : '65%',
+              background: crowding === 'available' ? '#00C896' : crowding === 'full' ? '#FF5252' : '#FF9F43',
+              transition: 'width 1s ease',
+            }} />
+          </div>
+          <div style={{ fontSize: 11, color: '#7A92A8', marginTop: 6 }}>
+            {crowding === 'available' ? 'Seats available — comfortable ride' :
+             crowding === 'full'      ? 'Standing only — next bus in ~8 min' :
+             'Limited seats — consider next bus'}
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.6; transform:scale(0.85); } }
+      `}</style>
     </div>
   );
 }

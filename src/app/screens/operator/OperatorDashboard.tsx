@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../lib/auth';
-import { MapPreview } from '../../components/MapPreview';
+import { APIProvider } from '@vis.gl/react-google-maps';
+
 import {
   Bus, Users, Clock, AlertTriangle, TrendingUp, Search,
   Zap, Sparkles, RefreshCw, CheckCircle2, Activity,
   BarChart2, Map, ArrowUp, ArrowDown, Send, Bell,
   Navigation, ChevronRight,
 } from 'lucide-react';
-import { useLang } from '../../../lib/i18n';
+
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const FETCH_OPTS = { headers: { 'ngrok-skip-browser-warning': 'true' } };
 
 /* ── Real Amman Vision data ─────────────────────────────── */
 const REAL = {
@@ -79,6 +83,18 @@ const ROUTE_PERF = [
   {name:'Sarfees',         load:60, color:'#FF9F43'},
   {name:'Route 12',        load:45, color:'#00C896'},
 ];
+
+const BUS_POSITIONS: Record<string,[number,number]> = {
+  'BUS-101':[31.9968,35.8606],'BUS-102':[31.9950,35.8650],
+  'BUS-103':[31.9481,35.8402],'BUS-104':[31.9530,35.8450],
+  'BUS-105':[31.9650,35.9100],'BUS-106':[31.9570,35.9000],
+  'BUS-107':[32.0200,36.0000],'BUS-108':[31.9700,35.9100],
+  'BUS-109':[31.9773,35.9060],'BUS-110':[31.9310,35.8570],
+  'BUS-401':[31.9900,35.9200],'BUS-402':[32.0100,35.9500],
+};
+const STATUS_DOT: Record<string,string> = {
+  active:'#00C896', delayed:'#FF9F43', maintenance:'#7A92A8', depot:'#B0BEC5', full:'#FF5252'
+};
 
 /* ── Shared components ──────────────────────────────────── */
 function LoadBar({pct}:{pct:number}) {
@@ -180,14 +196,14 @@ function RoutePerf() {
 }
 
 function DispatchPanel({recs,onAccept,onDismiss,accepted}:{recs:Rec[];onAccept:(id:string)=>void;onDismiss:(id:string)=>void;accepted:string[]}) {
-  const { t } = useLang();
+  
   return (
     <div style={{padding:'.875rem',overflowY:'auto',maxHeight:340}}>
       {recs.length===0?(
         <div style={{textAlign:'center',padding:'1.5rem 1rem'}}>
           <div style={{fontSize:28,marginBottom:6}}>✅</div>
-          <div style={{fontSize:'.83rem',fontWeight:700,color:'#0F2240'}}>{t.operator.allActioned}</div>
-          <div style={{fontSize:'.72rem',color:'#7A92A8',marginTop:3}}>{t.operator.monitoring}</div>
+          <div style={{fontSize:'.83rem',fontWeight:700,color:'#0F2240'}}>'All actions taken'</div>
+          <div style={{fontSize:'.72rem',color:'#7A92A8',marginTop:3}}>'Monitoring network…'</div>
         </div>
       ):recs.map(rec=>{
         const cfg=REC_CFG[rec.action];
@@ -231,7 +247,7 @@ function DispatchPanel({recs,onAccept,onDismiss,accepted}:{recs:Rec[];onAccept:(
 
 /* ── VIEWS ──────────────────────────────────────────────── */
 function DashboardView({fleet,recs,accepted,onAccept,onDismiss,alertDismissed,setAlertDismissed,fleetFilter,setFleetFilter,search,setSearch,selectedId,setSelectedId,filteredFleet}:any) {
-  const { t } = useLang();
+  
   const active=fleet.filter((b:BusRow)=>b.status==='active').length;
   const delayed=fleet.filter((b:BusRow)=>b.status==='delayed').length;
   const avgLoad=Math.round(fleet.filter((b:BusRow)=>b.status==='active').reduce((s:number,b:BusRow)=>s+b.load,0)/Math.max(1,active));
@@ -307,7 +323,44 @@ function DashboardView({fleet,recs,accepted,onAccept,onDismiss,alertDismissed,se
       {/* Map + Demand + Dispatch */}
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 300px',gap:12}}>
         <SectionCard title="Live Network Map" sub={`6 buses tracked · ${REAL.uniqueVehicles} in dataset`} badge="● Live" badgeColor="#00A87C">
-          <div style={{height:240}}><MapPreview height="100%" center={[31.955,35.895]} zoom={12} markers={FLEET_DATA.filter(b=>b.status!=='depot').map((b,i)=>({position:[31.955+(i*.015-.035),35.895+(i*.012-.03)] as [number,number],label:`${b.id} · ${b.route}`}))}/></div>
+          <div style={{height:240,borderRadius:8,overflow:'hidden'}}>
+              {/* Map with bus overlay */}
+        <div style={{position:'relative',width:'100%',height:'100%'}}>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30000!2d35.9106!3d31.9539!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sjo!4v1"
+            width="100%" height="100%" style={{border:0,display:'block'}} allowFullScreen loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"/>
+          {/* Bus markers overlay */}
+          <div style={{position:'absolute',inset:0,pointerEvents:'none',overflow:'hidden'}}>
+            {fleet.filter(b=>b.status!=='depot').map((bus,i)=>{
+              const pos=BUS_POSITIONS[bus.id]||[31.955+(i*.015-.035),35.895+(i*.012-.03)]; const coords={lat:pos[0],lng:pos[1]};
+              // Convert lat/lng to % position on map (Amman area: lat 31.85-32.05, lng 35.75-36.05)
+              const x = Math.min(98,Math.max(2,((coords.lng-35.75)/(36.05-35.75))*100));
+              const y = Math.min(98,Math.max(2,((32.05-coords.lat)/(32.05-31.85))*100));
+              const color=bus.status==='delayed'?'#FF9F43':bus.status==='full'?'#FF5252':'#00C896';
+              return (
+                <div key={bus.id} style={{position:'absolute',left:`${x}%`,top:`${y}%`,transform:'translate(-50%,-50%)',pointerEvents:'auto',zIndex:10}}>
+                  <div style={{background:'white',borderRadius:8,padding:'2px 6px',fontSize:9,fontWeight:700,color:'#0F2240',boxShadow:'0 2px 8px rgba(0,0,0,0.3)',border:`2px solid ${color}`,whiteSpace:'nowrap',display:'flex',alignItems:'center',gap:4}}>
+                    <div style={{width:8,height:8,borderRadius:'50%',background:color,flexShrink:0}}/>
+                    {bus.id} {bus.load}%
+                    {bus.delay>0&&<span style={{color:'#C87800'}}>+{bus.delay}m</span>}
+                  </div>
+                  <div style={{width:0,height:0,borderLeft:'5px solid transparent',borderRight:'5px solid transparent',borderTop:`6px solid ${color}`,margin:'0 auto'}}/>
+                </div>
+              );
+            })}
+          </div>
+          {/* Legend */}
+          <div style={{position:'absolute',bottom:12,left:12,background:'rgba(255,255,255,0.95)',borderRadius:10,padding:'6px 12px',display:'flex',gap:12,boxShadow:'0 2px 8px rgba(0,0,0,0.15)',pointerEvents:'none'}}>
+            {[['#00C896','Active'],['#FF9F43','Delayed'],['#FF5252','Full']].map(([c,l])=>(
+              <div key={l} style={{display:'flex',alignItems:'center',gap:4,fontSize:10,fontWeight:600,color:'#0F2240'}}>
+                <div style={{width:8,height:8,borderRadius:'50%',background:c}}/>
+                {l}
+              </div>
+            ))}
+          </div>
+        </div>
+            </div>
         </SectionCard>
         <SectionCard title="Hourly Demand" sub="Real boarding data · 18,038 trips" badge="AI Predicted" badgeColor="#7C3AED">
           <DemandChart/>
@@ -325,7 +378,7 @@ function DashboardView({fleet,recs,accepted,onAccept,onDismiss,alertDismissed,se
         {/* Fleet table */}
         <div style={{background:'white',borderRadius:14,border:'1px solid #EEF3F8',boxShadow:'0 2px 10px rgba(15,34,64,.05)',overflow:'hidden',animation:'op-fade .4s .55s ease both'}}>
           <div style={{padding:'.875rem 1.1rem',borderBottom:'1px solid #EEF3F8',display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,flexWrap:'wrap'}}>
-            <div><div style={{fontSize:'.9rem',fontWeight:700,color:'#0F2240'}}>{t.operator.fleet}</div><div style={{fontSize:'.7rem',color:'#7A92A8',marginTop:1}}>{REAL.uniqueVehicles} vehicles in Amman Vision dataset</div></div>
+            <div><div style={{fontSize:'.9rem',fontWeight:700,color:'#0F2240'}}>'Fleet Monitor'</div><div style={{fontSize:'.7rem',color:'#7A92A8',marginTop:1}}>{REAL.uniqueVehicles} vehicles in Amman Vision dataset</div></div>
             <div style={{display:'flex',alignItems:'center',gap:7,flexWrap:'wrap'}}>
               {(['all','active','delayed'] as const).map(f=>(
                 <button key={f} onClick={()=>setFleetFilter(f)} style={{padding:'5px 11px',borderRadius:8,fontSize:'.75rem',fontWeight:600,border:`1.5px solid ${fleetFilter===f?'#00C896':'#EEF3F8'}`,background:fleetFilter===f?'#E0FBF4':'white',color:fleetFilter===f?'#00A87C':'#4A6580',cursor:'pointer',fontFamily:'inherit',transition:'all .15s',textTransform:'capitalize'}}>
@@ -358,7 +411,7 @@ function DashboardView({fleet,recs,accepted,onAccept,onDismiss,alertDismissed,se
                       <td style={{padding:'.65rem .9rem'}}><span style={{fontFamily:'monospace',fontSize:'.82rem',fontWeight:700,color:'#0F2240'}}>{bus.id}</span></td>
                       <td style={{padding:'.65rem .9rem'}}><span style={{fontSize:'.8rem',fontWeight:600,color:'#4A6580'}}>{bus.route}</span></td>
                       <td style={{padding:'.65rem .9rem'}}><span style={{fontSize:'.77rem',color:'#7A92A8'}}>{bus.driver}</span></td>
-                      <td style={{padding:'.65rem .9rem'}}><span style={{display:'inline-flex',alignItems:'center',gap:4,fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:99,background:sc.bg,color:sc.color}}><span style={{width:5,height:5,borderRadius:'50%',background:sc.dot,display:'inline-block'}}/>{sc.status==='active'?t.operator.active:sc.status==='delayed'?t.operator.delayed2:sc.status==='maintenance'?t.operator.maintenance:t.operator.inDepot}</span></td>
+                      <td style={{padding:'.65rem .9rem'}}><span style={{display:'inline-flex',alignItems:'center',gap:4,fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:99,background:sc.bg,color:sc.color}}><span style={{width:5,height:5,borderRadius:'50%',background:sc.dot,display:'inline-block'}}/>{sc.status==='active'?'Active':sc.status==='delayed'?'Delayed':sc.status==='maintenance'?'Maintenance':'In Depot'}</span></td>
                       <td style={{padding:'.65rem .9rem'}}><LoadBar pct={Math.round(bus.load)}/></td>
                       <td style={{padding:'.65rem .9rem'}}>{bus.delay>0?<span style={{fontSize:'.8rem',fontWeight:700,color:'#C87800'}}>+{Math.round(bus.delay)}m</span>:<span style={{fontSize:'.77rem',color:'#7A92A8'}}>—</span>}</td>
                       <td style={{padding:'.65rem .9rem'}}>{bus.speed>0?<span style={{fontSize:'.78rem',color:'#4A6580'}}>{Math.round(bus.speed)} km/h</span>:<span style={{fontSize:'.77rem',color:'#7A92A8'}}>—</span>}</td>
@@ -427,7 +480,7 @@ function DashboardView({fleet,recs,accepted,onAccept,onDismiss,alertDismissed,se
 }
 
 function FleetView({fleet,fleetFilter,setFleetFilter,search,setSearch,selectedId,setSelectedId,filteredFleet}:any) {
-  const { t } = useLang();
+  
   return (
     <div style={{background:'white',borderRadius:14,border:'1px solid #EEF3F8',boxShadow:'0 2px 10px rgba(15,34,64,.05)',overflow:'hidden'}}>
       <div style={{padding:'.875rem 1.1rem',borderBottom:'1px solid #EEF3F8',display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,flexWrap:'wrap'}}>
@@ -462,7 +515,7 @@ function FleetView({fleet,fleetFilter,setFleetFilter,search,setSearch,selectedId
                   <td style={{padding:'.7rem .9rem'}}><span style={{fontFamily:'monospace',fontSize:'.82rem',fontWeight:700,color:'#0F2240'}}>{bus.id}</span></td>
                   <td style={{padding:'.7rem .9rem'}}><span style={{fontSize:'.8rem',fontWeight:600,color:'#4A6580'}}>{bus.route}</span></td>
                   <td style={{padding:'.7rem .9rem'}}><span style={{fontSize:'.77rem',color:'#7A92A8'}}>{bus.driver}</span></td>
-                  <td style={{padding:'.7rem .9rem'}}><span style={{display:'inline-flex',alignItems:'center',gap:4,fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:99,background:sc.bg,color:sc.color}}><span style={{width:5,height:5,borderRadius:'50%',background:sc.dot,display:'inline-block'}}/>{sc.status==='active'?t.operator.active:sc.status==='delayed'?t.operator.delayed2:sc.status==='maintenance'?t.operator.maintenance:t.operator.inDepot}</span></td>
+                  <td style={{padding:'.7rem .9rem'}}><span style={{display:'inline-flex',alignItems:'center',gap:4,fontSize:10,fontWeight:700,padding:'3px 8px',borderRadius:99,background:sc.bg,color:sc.color}}><span style={{width:5,height:5,borderRadius:'50%',background:sc.dot,display:'inline-block'}}/>{sc.status==='active'?'Active':sc.status==='delayed'?'Delayed':sc.status==='maintenance'?'Maintenance':'In Depot'}</span></td>
                   <td style={{padding:'.7rem .9rem'}}><LoadBar pct={Math.round(bus.load)}/></td>
                   <td style={{padding:'.7rem .9rem'}}>{bus.delay>0?<span style={{fontSize:'.8rem',fontWeight:700,color:'#C87800'}}>+{Math.round(bus.delay)}m</span>:<span style={{fontSize:'.77rem',color:'#7A92A8'}}>—</span>}</td>
                   <td style={{padding:'.7rem .9rem'}}>{bus.speed>0?<span style={{fontSize:'.78rem',color:'#4A6580'}}>{Math.round(bus.speed)} km/h</span>:<span style={{fontSize:'.77rem',color:'#7A92A8'}}>—</span>}</td>
@@ -491,8 +544,42 @@ function MapView({fleet}:{fleet:BusRow[]}) {
   return (
     <SectionCard title="Live Network Map — Amman" sub={`${REAL.uniqueVehicles} vehicles · ${REAL.uniqueRoutes} routes in Amman Vision dataset`} badge="● 6 Live" badgeColor="#00A87C">
       <div style={{height:'calc(100vh - 16rem)',minHeight:400}}>
-        <MapPreview height="100%" center={[31.955,35.895]} zoom={13}
-          markers={fleet.filter(b=>b.status!=='depot').map((b,i)=>({position:[31.955+(i*.015-.035),35.895+(i*.012-.03)] as [number,number],label:`${b.id} · ${b.route}`}))}/>
+        {/* Map with bus overlay */}
+        <div style={{position:'relative',width:'100%',height:'100%'}}>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30000!2d35.9106!3d31.9539!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sjo!4v1"
+            width="100%" height="100%" style={{border:0,display:'block'}} allowFullScreen loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"/>
+          {/* Bus markers overlay */}
+          <div style={{position:'absolute',inset:0,pointerEvents:'none',overflow:'hidden'}}>
+            {fleet.filter(b=>b.status!=='depot').map((bus,i)=>{
+              const pos=BUS_POSITIONS[bus.id]||[31.955+(i*.015-.035),35.895+(i*.012-.03)]; const coords={lat:pos[0],lng:pos[1]};
+              // Convert lat/lng to % position on map (Amman area: lat 31.85-32.05, lng 35.75-36.05)
+              const x = Math.min(98,Math.max(2,((coords.lng-35.75)/(36.05-35.75))*100));
+              const y = Math.min(98,Math.max(2,((32.05-coords.lat)/(32.05-31.85))*100));
+              const color=bus.status==='delayed'?'#FF9F43':bus.status==='full'?'#FF5252':'#00C896';
+              return (
+                <div key={bus.id} style={{position:'absolute',left:`${x}%`,top:`${y}%`,transform:'translate(-50%,-50%)',pointerEvents:'auto',zIndex:10}}>
+                  <div style={{background:'white',borderRadius:8,padding:'2px 6px',fontSize:9,fontWeight:700,color:'#0F2240',boxShadow:'0 2px 8px rgba(0,0,0,0.3)',border:`2px solid ${color}`,whiteSpace:'nowrap',display:'flex',alignItems:'center',gap:4}}>
+                    <div style={{width:8,height:8,borderRadius:'50%',background:color,flexShrink:0}}/>
+                    {bus.id} {bus.load}%
+                    {bus.delay>0&&<span style={{color:'#C87800'}}>+{bus.delay}m</span>}
+                  </div>
+                  <div style={{width:0,height:0,borderLeft:'5px solid transparent',borderRight:'5px solid transparent',borderTop:`6px solid ${color}`,margin:'0 auto'}}/>
+                </div>
+              );
+            })}
+          </div>
+          {/* Legend */}
+          <div style={{position:'absolute',bottom:12,left:12,background:'rgba(255,255,255,0.95)',borderRadius:10,padding:'6px 12px',display:'flex',gap:12,boxShadow:'0 2px 8px rgba(0,0,0,0.15)',pointerEvents:'none'}}>
+            {[['#00C896','Active'],['#FF9F43','Delayed'],['#FF5252','Full']].map(([c,l])=>(
+              <div key={l} style={{display:'flex',alignItems:'center',gap:4,fontSize:10,fontWeight:600,color:'#0F2240'}}>
+                <div style={{width:8,height:8,borderRadius:'50%',background:c}}/>
+                {l}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </SectionCard>
   );
@@ -636,13 +723,82 @@ function ComingSoon({view}:{view:string}) {
   );
 }
 
+/* ── Live data hook ─────────────────────────────────────── */
+function useDashboardData() {
+  const [liveFleet, setLiveFleet] = useState<BusRow[]>([]);
+  const [liveRecs,  setLiveRecs]  = useState<Rec[]>([]);
+  const [liveKPIs,  setLiveKPIs]  = useState<any>(null);
+  const [loaded,    setLoaded]    = useState(false);
+
+  const fetch_data = async () => {
+    try {
+      const res  = await fetch(`${API_BASE}/dashboard`, FETCH_OPTS);
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+
+      // Map fleet from Supabase to BusRow format
+      if (data.fleet?.length > 0) {
+        const mapped: BusRow[] = data.fleet.map((v: any) => ({
+          id:     v.vehicle_id,
+          route:  v.route_id || '—',
+          driver: 'On Duty',
+          status: v.status === 'full' ? 'active' : (v.status as BusStatus),
+          load:   v.load_pct   || 0,
+          delay:  v.delay_minutes || 0,
+          speed:  v.speed_kmh  || 0,
+        }));
+        setLiveFleet(mapped);
+        setFleet(mapped);
+      }
+
+      // Map AI recommendations
+      if (data.recommendations?.length > 0) {
+        const mapped: Rec[] = data.recommendations.map((r: any) => ({
+          id:     r.vehicle_id,
+          action: r.action as RecAction,
+          urgent: r.urgent,
+          conf:   r.confidence,
+          reason: r.reason,
+          impact: r.impact,
+        }));
+        setLiveRecs(mapped);
+        setRecs(mapped);
+      }
+
+      if (data.kpis) setLiveKPIs(data.kpis);
+      setLoaded(true);
+    } catch (e) {
+      console.warn('Dashboard API unavailable — using static data');
+    }
+  };
+
+  useEffect(() => {
+    fetch_data();
+    const iv = setInterval(fetch_data, 30_000);
+    return () => clearInterval(iv);
+  }, []);
+
+  return { liveFleet, liveRecs, liveKPIs, loaded };
+}
+
 /* ── Main ───────────────────────────────────────────────── */
 export function OperatorDashboard() {
-  const { t, isRTL, lang } = useLang();
+  
 
   const {user,logout}       = useAuth();
+  const { liveFleet, liveRecs, liveKPIs, loaded } = useDashboardData();
   const [fleet,setFleet]    = useState<BusRow[]>(FLEET_DATA);
   const [recs,setRecs]      = useState<Rec[]>(RECS_DATA);
+
+  // Sync live data into state when it arrives
+  useEffect(() => {
+    if (liveFleet.length > 0) setFleet(liveFleet);
+  }, [liveFleet]);
+  useEffect(() => {
+    if (liveRecs.length > 0) setRecs(prev =>
+      prev.length === RECS_DATA.length ? [...liveRecs, ...RECS_DATA] : prev
+    );
+  }, [liveRecs]);
   const [accepted,setAccepted] = useState<string[]>([]);
   const [view,setView]      = useState<SideView>('dashboard');
   const [fleetFilter,setFleetFilter] = useState<'all'|BusStatus>('all');
@@ -672,7 +828,7 @@ export function OperatorDashboard() {
       {key:'dashboard',icon:'📊',label:'Dashboard'},
       {key:'fleet',    icon:'🚌',label:'Fleet Monitor'},
       {key:'map',      icon:'🗺',label:'Live Map'},
-      {key:'routes',   icon:'📍',label:'Route Manager'},
+
     ]},
     {section:'Intelligence', items:[
       {key:'ai',      icon:'✦', label:'AI Dispatch',      badge:recs.length>0?String(recs.length):null,badgeRed:true},
@@ -680,12 +836,13 @@ export function OperatorDashboard() {
       {key:'reports', icon:'📋',label:'MOT Reports',      badge:'New',badgeRed:false},
     ]},
     {section:'System', items:[
-      {key:'alerts',  icon:'🔔',label:'Alerts', badge:'3',badgeRed:true},
+      {key:'alerts',  icon:'🔔',label:'Alerts', badge:String(recs.filter((r:any)=>r.urgent).length+1),badgeRed:true},
       {key:'settings',icon:'⚙', label:'Settings'},
     ]},
   ];
 
   return (
+    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}>
     <div style={{display:'flex',height:'calc(100vh - 4rem)',background:'#F4F8FB',overflow:'hidden'}}>
       <style>{`
         @keyframes op-fade  {from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -784,5 +941,6 @@ export function OperatorDashboard() {
         </div>
       </div>
     </div>
+  </APIProvider>
   );
 }

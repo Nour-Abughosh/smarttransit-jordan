@@ -1,0 +1,11 @@
+node_modules
+ai/
+backend/
+*.csv
+*.pkl
+*.keras
+__pycache__
+*.pyc
+.git
+Batoul - Copy
+Capstone2 Data
